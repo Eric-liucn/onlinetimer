@@ -1,0 +1,42 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.0.0" apply false
+}
+
+group = 'com.devcooker'
+version = '1.0-SNAPSHOT'
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+
+    group = parent.group
+    version = parent.version
+
+    def targetJavaVersion = property('javaVersion') as int
+    java {
+        def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+            options.release = targetJavaVersion
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation('com.zaxxer:HikariCP:5.0.1'){
+            exclude module: 'slf4j-api'
+        }
+        implementation('org.spongepowered:configurate-hocon:4.1.2')
+        implementation('mysql:mysql-connector-java:8.0.27')
+    }
+}

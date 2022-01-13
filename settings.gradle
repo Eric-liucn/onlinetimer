@@ -1,0 +1,3 @@
+rootProject.name = 'onlinetimer'
+
+include 'onlinetimer-common', 'onlinetimer-spigot', 'onlinetimer-sponge'

@@ -1,0 +1,9 @@
+name: Onlinetimer
+version: '${version}'
+main: com.devcooker.onlinetimer.OnlinetimerSpigot
+api-version: 1.16
+prefix: onlinetimer
+load: STARTUP
+depend: [ Vault ]
+authors: [ sillyL ]
+description: A timer to record how long the player had play in your server
